@@ -17,21 +17,24 @@ func New(cfg *config.Config, logger *zap.Logger) (http.Handler, error) {
 
 	r.Use(middleware.RequestLogger(logger))
 	r.Use(middleware.Timeout(cfg.Timeout))
-	r.Use(middleware.Metrics())
-	// auth can be added per-route
 
 	r.Get("/healthz", health.Handler)
 
-	for _, b := range cfg.Backends {
-		pool := lb.NewRoundRobin([]string{b.URL})
-		r.Mount("/"+b.Name, http.StripPrefix("/"+b.Name, proxy.NewReverseProxy(pool)))
-	}
+	// apiPool := lb.NewRoundRobin([]string{
+	// 	"http://backend-api:8080",
+	// })
+	// r.Mount("/api",
+	// 	http.StripPrefix("/api",
+	// 		proxy.NewReverseProxy(apiPool),
+	// 	),
+	// )
 
-	r.Route("/api", func(r chi.Router) {
-		r.Method("GET", "/v1/users/*", proxy.NewReverseProxy(lb.NewRoundRobin([]string{"http://localhost:8081"})))
+	frontendPool := lb.NewRoundRobin([]string{
+		"http://frontend:80",
 	})
-
-	r.Handle("/metrics", middleware.PrometheusHandler())
+	r.Mount("/",
+		proxy.NewReverseProxy(frontendPool),
+	)
 
 	return r, nil
 }

@@ -1,11 +1,11 @@
 version: "3.9"
 services:
   gateway:
-    build: .
+    image: antgoncharik/crypto-knight-gateway
     container_name: gateway
-    ports:
-      - "8080:8080"
     restart: always
+    networks:
+      - share-net
   caddy:
     image: caddy:latest
     container_name: caddy
@@ -17,6 +17,11 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+    networks:
+      - share-net
 volumes:
   caddy_data:
   caddy_config:
+networks:
+  share-net:
+    external: true
