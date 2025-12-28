@@ -6,6 +6,7 @@ services:
     restart: always
     networks:
       - share-net
+      - wg-net
   caddy:
     image: caddy:latest
     container_name: caddy
@@ -19,9 +20,12 @@ services:
       - caddy_config:/config
     networks:
       - share-net
+      - wg-net
 volumes:
   caddy_data:
   caddy_config:
 networks:
   share-net:
+    external: true
+  wg-net:
     external: true
