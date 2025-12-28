@@ -21,7 +21,7 @@ func New(cfg *config.Config, logger *zap.Logger) (http.Handler, error) {
 	r.Get("/healthz", health.Handler)
 
 	apiPool := lb.NewRoundRobin([]string{
-		"http://backend:8081",
+		"https://api.crypto-knight.site:8080",
 	})
 	r.Mount("/api",
 		http.StripPrefix("/api",
