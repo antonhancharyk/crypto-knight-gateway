@@ -21,6 +21,7 @@ services:
     networks:
       - share-net
       - wg-net
+    network_mode: service:wireguard
 volumes:
   caddy_data:
   caddy_config:
