@@ -29,35 +29,8 @@ func New(cfg *config.Config, logger *zap.Logger) (http.Handler, error) {
 		),
 	)
 
-	rabbitmqPool := lb.NewRoundRobin([]string{
-		"http://10.10.0.3:15672",
-	})
-	r.Mount("/rabbitmq",
-		http.StripPrefix("/rabbitmq",
-			proxy.NewReverseProxy(rabbitmqPool),
-		),
-	)
-
-	kibanaPool := lb.NewRoundRobin([]string{
-		"http://10.10.0.3:5601",
-	})
-	r.Mount("/kibana",
-		http.StripPrefix("/kibana",
-			proxy.NewReverseProxy(kibanaPool),
-		),
-	)
-
-	grafanaPool := lb.NewRoundRobin([]string{
-		"http://10.10.0.3:3000",
-	})
-	r.Mount("/grafana",
-		http.StripPrefix("/grafana",
-			proxy.NewReverseProxy(grafanaPool),
-		),
-	)
-
 	frontendPool := lb.NewRoundRobin([]string{
-		"http://frontend:80",
+		"http://10.10.0.2:81",
 	})
 	r.Mount("/",
 		proxy.NewReverseProxy(frontendPool),
