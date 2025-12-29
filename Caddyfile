@@ -2,6 +2,10 @@ crypto-knight.site {
     reverse_proxy gateway:8080
 }
 
+api.crypto-knight.site {
+    reverse_proxy 10.10.0.3:8080
+}
+
 rabbitmq.crypto-knight.site {
     reverse_proxy 10.10.0.3:15672
 }
