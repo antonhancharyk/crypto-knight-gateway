@@ -29,12 +29,12 @@ func New(cfg *config.Config, logger *zap.Logger) (http.Handler, error) {
 		),
 	)
 
-	logstashPool := lb.NewRoundRobin([]string{
-		"http://10.10.0.3:5044",
+	rabbitmqPool := lb.NewRoundRobin([]string{
+		"http://10.10.0.3:15672",
 	})
-	r.Mount("/logstash",
-		http.StripPrefix("/logstash",
-			proxy.NewReverseProxy(logstashPool),
+	r.Mount("/rabbitmq",
+		http.StripPrefix("/rabbitmq",
+			proxy.NewReverseProxy(rabbitmqPool),
 		),
 	)
 
