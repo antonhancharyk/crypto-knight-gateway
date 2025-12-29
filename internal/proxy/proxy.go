@@ -30,17 +30,17 @@ func NewReverseProxy(pool *lb.RoundRobin) http.Handler {
 			w.Write([]byte("upstream error: " + err.Error()))
 		}
 
-		proxy.ModifyResponse = func(resp *http.Response) error {
-			path := resp.Request.URL.Path
-			if len(path) >= 3 {
-				if path[len(path)-3:] == ".js" {
-					resp.Header.Set("Content-Type", "application/javascript")
-				} else if len(path) >= 4 && path[len(path)-4:] == ".css" {
-					resp.Header.Set("Content-Type", "text/css")
-				}
-			}
-			return nil
-		}
+		// proxy.ModifyResponse = func(resp *http.Response) error {
+		// 	path := resp.Request.URL.Path
+		// 	if len(path) >= 3 {
+		// 		if path[len(path)-3:] == ".js" {
+		// 			resp.Header.Set("Content-Type", "application/javascript")
+		// 		} else if len(path) >= 4 && path[len(path)-4:] == ".css" {
+		// 			resp.Header.Set("Content-Type", "text/css")
+		// 		}
+		// 	}
+		// 	return nil
+		// }
 
 		proxy.ServeHTTP(w, r)
 	})
