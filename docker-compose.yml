@@ -4,8 +4,8 @@ services:
     image: antgoncharik/crypto-knight-gateway
     container_name: gateway
     restart: always
-    # networks:
-    #   - share-net
+    networks:
+      - share-net
   caddy:
     image: caddy:latest
     container_name: caddy
@@ -17,11 +17,11 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-    # networks:
-    #   - share-net
+    networks:
+      - share-net
 volumes:
   caddy_data:
   caddy_config:
-# networks:
-#   share-net:
-#     external: true
+networks:
+  share-net:
+    external: true

@@ -30,7 +30,7 @@ func New(cfg *config.Config, logger *zap.Logger) (http.Handler, error) {
 	)
 
 	frontendPool := lb.NewRoundRobin([]string{
-		"http://10.10.0.2:81",
+		"http://frontend:80",
 	})
 	r.Mount("/",
 		proxy.NewReverseProxy(frontendPool),
