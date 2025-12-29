@@ -33,10 +33,17 @@ func New(cfg *config.Config, logger *zap.Logger) (http.Handler, error) {
 		"http://10.10.0.3:15672",
 	})
 	r.Mount("/rabbitmq",
-		http.StripPrefix("/rabbitmq",
-			proxy.NewReverseProxy(rabbitmqPool),
-		),
+		proxy.NewReverseProxy(rabbitmqPool),
 	)
+
+	// rabbitmqPool := lb.NewRoundRobin([]string{
+	// 	"http://10.10.0.3:15672",
+	// })
+	// r.Mount("/rabbitmq",
+	// 	http.StripPrefix("/rabbitmq",
+	// 		proxy.NewReverseProxy(rabbitmqPool),
+	// 	),
+	// )
 
 	kibanaPool := lb.NewRoundRobin([]string{
 		"http://10.10.0.3:5601",
