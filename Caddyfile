@@ -2,6 +2,10 @@ crypto-knight.site {
     reverse_proxy gateway:8080
 }
 
+sso.crypto-knight.site {
+    reverse_proxy sso:8081
+}
+
 api.crypto-knight.site {
     reverse_proxy 10.10.0.3:8080
 }
