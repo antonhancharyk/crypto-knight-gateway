@@ -1,6 +1,6 @@
 module github.com/antonhancharyk/crypto-knight-gateway
 
-go 1.25.1
+go 1.26
 
 require go.uber.org/zap v1.27.1
 

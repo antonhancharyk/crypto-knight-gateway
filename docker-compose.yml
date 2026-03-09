@@ -1,14 +1,12 @@
 version: "3.9"
 services:
-  gateway:
+  app:
     image: antgoncharik/crypto-knight-gateway
-    container_name: gateway
     restart: always
     networks:
       - share-net
   caddy:
     image: caddy:latest
-    container_name: caddy
     restart: always
     ports:
       - "80:80"

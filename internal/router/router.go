@@ -20,12 +20,8 @@ func New(cfg *config.Config, logger *zap.Logger) (http.Handler, error) {
 
 	r.Get("/healthz", health.Handler)
 
-	frontendPool := lb.NewRoundRobin([]string{
-		"http://frontend:80",
-	})
-	r.Mount("/",
-		proxy.NewReverseProxy(frontendPool),
-	)
+	pool := lb.NewRoundRobin(cfg.UpstreamURLs)
+	r.Mount("/", proxy.NewReverseProxy(pool))
 
 	return r, nil
 }
